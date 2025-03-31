@@ -1,6 +1,8 @@
+const express = require('express');
 const axios = require('axios');
+const app = express();
 
-exports.handler = async (event, context) => {
+app.get('/api/streak-check', async (req, res) => {
     const now = new Date().toLocaleString("en-US", { timeZone: "Asia/Dhaka" });
     const today = new Date(now);
     const startOfDay = new Date(today.setHours(0, 0, 0, 0)).getTime() / 1000;
@@ -22,19 +24,20 @@ exports.handler = async (event, context) => {
         const lastActiveTimestamp = recentSubmission ? recentSubmission.creationTimeSeconds : 0;
         const lastActiveDate = lastActiveTimestamp ? new Date(lastActiveTimestamp * 1000).toLocaleDateString("en-US", { timeZone: "Asia/Dhaka" }) : "Never";
 
-        return {
-            statusCode: 200,
-            body: JSON.stringify({
-                solvedToday: solvedToday,
-                date: today.toLocaleDateString("en-US", { timeZone: "Asia/Dhaka" }),
-                lastActive: lastActiveDate,
-                lastActiveTimestamp: lastActiveTimestamp
-            }),
-        };
+        res.status(200).json({
+            solvedToday: solvedToday,
+            date: today.toLocaleDateString("en-US", { timeZone: "Asia/Dhaka" }),
+            lastActive: lastActiveDate,
+            lastActiveTimestamp: lastActiveTimestamp
+        });
     } catch (error) {
-        return {
-            statusCode: 500,
-            body: JSON.stringify({ error: 'Failed to fetch submissions' }),
-        };
+        res.status(500).json({ error: 'Failed to fetch submissions' });
     }
-};
+});
+
+app.use(express.static('public'));
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
