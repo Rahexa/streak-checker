@@ -94,11 +94,6 @@ const checkStreakAndEmail = async (alertTime) => {
 };
 
 // Schedule alerts
-// 5:05 PM Asia/Dhaka = 11:05 UTC (test)
-cron.schedule('5 11 * * *', () => checkStreakAndEmail('5:05 PM'), {
-    timezone: "UTC"
-});
-
 // 9:00 PM Asia/Dhaka = 15:00 UTC
 cron.schedule('0 15 * * *', () => checkStreakAndEmail('9:00 PM'), {
     timezone: "UTC"
@@ -113,5 +108,5 @@ cron.schedule('30 17 * * *', () => checkStreakAndEmail('11:30 PM'), {
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
-    console.log('Cron jobs scheduled for 5:05 PM (test), 9:00 PM, and 11:30 PM Asia/Dhaka');
+    console.log('Cron jobs scheduled for 9:00 PM and 11:30 PM Asia/Dhaka');
 });
