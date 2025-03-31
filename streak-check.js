@@ -50,8 +50,8 @@ app.get('/api/streak-check', async (req, res) => {
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'sikderraihan110@gmail.com', // Sending Gmail
-        pass: 'hufh hgfg lcxd lbta'        // App Password
+        user: 'sikderraihan110@gmail.com',
+        pass: 'hufh hgfg lcxd lbta'
     }
 });
 
@@ -77,8 +77,8 @@ const checkStreakAndEmail = async (alertTime) => {
 
         if (!solvedToday && lastActiveTimestamp > sevenDaysAgo) {
             const mailOptions = {
-                from: 'sikderraihan110@gmail.com', // Sending Gmail
-                to: 'sikderraihan693@gmail.com',   // Receiving Gmail
+                from: 'sikderraihan110@gmail.com',
+                to: 'sikderraihan693@gmail.com',
                 subject: `Streak Alert: ${alertTime} Warning!`,
                 text: `Hey Rahi, it’s ${alertTime} on ${today.toLocaleDateString("en-US", { timeZone: "Asia/Dhaka" })} and you haven’t solved a problem today. You were last active on ${new Date(lastActiveTimestamp * 1000).toLocaleDateString("en-US", { timeZone: "Asia/Dhaka" })}. Solve one now! - Streak Bot`
             };
@@ -94,7 +94,7 @@ const checkStreakAndEmail = async (alertTime) => {
 };
 
 // Schedule alerts
-// 5:05 PM Asia/Dhaka = 11:05 UTC (temporary test)
+// 5:05 PM Asia/Dhaka = 11:05 UTC (test)
 cron.schedule('5 11 * * *', () => checkStreakAndEmail('5:05 PM'), {
     timezone: "UTC"
 });
